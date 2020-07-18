@@ -34,6 +34,10 @@ import java.util.List;
  * the returned records. In these cases the records will be persisted with
  * the available fields.
  *
+ * In addition to the above, this code will do some basic data cleansing.
+ * Currently this cleansing consists of removing embedded newlines in fields
+ * and converting multiple spaces into a single space.
+ *
  * Records are fetched via the CrossrefClient class, and are fetched based
  * on the following criteria:
  * <p><ul>
