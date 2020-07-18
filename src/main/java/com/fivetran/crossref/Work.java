@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class encapsulating the attributes of an item returned from the Crossref
+ * API works endpoint.
+ */
 @Getter
 @Setter
 @Slf4j
@@ -22,6 +26,15 @@ public class Work {
   private String publisher;
   private Long timestamp;
 
+  /**
+   * Convert the JSON documented returned by the API into a collection of Work
+   * objects.
+   *
+   * @param jsonNode JSON document returned by API call.
+   * @return A collection of Work objects encapsulating items returned by the
+   * API call.
+   * @throws IOException Thrown if an exception occurs during parsing.
+   */
   public static List<Work> parseItems(JsonNode jsonNode)
       throws IOException {
     List<Work> items = new ArrayList<>();
@@ -31,16 +44,29 @@ public class Work {
     return items;
   }
 
-  public static Work parseItem(JsonNode jsonNode)
+  /**
+   * Convert a JSON document representing a single item returned by the works
+   * API call into a Work object.
+   *
+   * @param jsonNode JSON document containing attributes of an item.
+   * @return The Work object created from the JSON argument.
+   * @throws IOException Thrown if an exception occurs during parsing.
+   */
+  private static Work parseItem(JsonNode jsonNode)
       throws IOException {
     Work work = new Work();
     work.setDOI(jsonNode.get("DOI").asText());
+    // Note that sometimes one or more fields will be missing in the JSON
+    // document, so we need to test for that before trying to populate the
+    // associated object attribute.
     if (jsonNode.get("publisher") == null) {
       log.warn("Publisher is null for DOI=" + work.getDOI());
       work.setPublisher("");
     } else {
       work.setPublisher(jsonNode.get("publisher").asText());
     }
+    // Titles are actually an array in the JSON document, so we need to convert
+    // accordingly:
     if (jsonNode.get("title") == null) {
       log.warn("Title is null for DOI=" + work.getDOI());
       work.setTitles(new ArrayList<>());
@@ -50,6 +76,8 @@ public class Work {
           }));
     }
     work.setTimestamp(jsonNode.get("created").get("timestamp").asLong());
+    // Authors are represented as a JSON array of author objects, so need to be
+    // treated accordingly:
     List<String> l = new ArrayList<>();
     if (jsonNode.get("author") == null) {
       log.warn("Author is null for DOI=" + work.getDOI());

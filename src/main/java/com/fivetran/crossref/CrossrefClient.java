@@ -15,12 +15,31 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class providing access to the Crossref Rest API. This class uses
+ * OkHttpClient to access the API.
+ */
 @Slf4j
 public class CrossrefClient {
+  /**
+   * Crossref API host.
+   */
   private static String HOST = "api.crossref.org";
+  /**
+   * Identifier for the API resource providing access to metadata on published
+   * works.
+   */
   private static String WORKS_RESOURCE = "works";
+  /**
+   * The OkHttpClient.
+   */
   private OkHttpClient client;
 
+  /**
+   * The constructor initializes the OkHttpClient. We'll set a higher read
+   * timeout in order to avoid timeouts that sometimes occur waiting for a
+   * response from the API.
+   */
   public CrossrefClient() {
     client =
         new OkHttpClient.Builder()
@@ -41,6 +60,8 @@ public class CrossrefClient {
         throw new IOException(" " + response);
       }
 
+      // Construct the response object encapsulating the results from the
+      // request:
       String json = response.body().string();
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode jsonNode = objectMapper.readTree(json);
@@ -55,6 +76,12 @@ public class CrossrefClient {
     return worksResponse;
   }
 
+  /**
+   * Construct the REST API URL based on the request arguments.
+   *
+   * @param request Object encapsulating parameters for request.
+   * @return Object encapsulating the resulting URL.
+   */
   private HttpUrl getUrl(WorksRequest request) {
     HttpUrl.Builder builder = new HttpUrl.Builder()
         .scheme("https")

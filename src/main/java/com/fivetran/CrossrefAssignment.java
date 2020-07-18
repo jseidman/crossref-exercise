@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.QuoteMode;
-import sun.applet.AppletResourceLoader;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -63,7 +62,7 @@ public class CrossrefAssignment {
   /**
    * Fetch records from the Crossref API and persist to a CSV file.
    *
-   * @param args Commond line arguments.
+   * @param args Command line arguments.
    */
   public static void main(String[] args) {
     // Construct a string representing the date one year ago from today:
