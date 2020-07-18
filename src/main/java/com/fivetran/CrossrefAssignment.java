@@ -59,6 +59,7 @@ public class CrossrefAssignment {
    * Path to persist records to.
    */
   private static String CSV_PATH = "/tmp/xref-assignment.csv";
+
   /**
    * Fetch records from the Crossref API and persist to a CSV file.
    *
@@ -88,9 +89,10 @@ public class CrossrefAssignment {
         .cursor("*")
         .build();
 
-    // Fetch the records. We'll get the first set of records, and then use
-    // the cursor returned as part of that response to fetch the next set
-    // of records. Repeat until we've received the entire result set.
+    // Fetch the records and write each batch to a CSV file. We'll get the
+    // first set of records, and then use the cursor returned as part of
+    // that response to fetch the next set of records. Repeat until we've
+    // received the entire result set.
     try {
       fileWriter = new FileWriter(CSV_PATH);
       csvPrinter =

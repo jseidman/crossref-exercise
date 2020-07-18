@@ -47,6 +47,13 @@ public class CrossrefClient {
             .build();
   }
 
+  /**
+   * Submit a request to the Crossref API works resource.
+   *
+   * @param worksRequest Parameters for the request.
+   * @return Object encapsulating return from the request.
+   * @throws IOException Thrown if an error occurs during the request.
+   */
   public WorksResponse works(WorksRequest worksRequest)
       throws IOException {
     HttpUrl url = getUrl(worksRequest);
