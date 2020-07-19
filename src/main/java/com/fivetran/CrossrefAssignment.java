@@ -5,7 +5,6 @@ import com.fivetran.crossref.Work;
 import com.fivetran.crossref.WorksRequest;
 import com.fivetran.crossref.WorksResponse;
 
-import com.sun.org.apache.xpath.internal.operations.Quo;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.csv.CSVFormat;

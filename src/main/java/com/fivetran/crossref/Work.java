@@ -76,8 +76,8 @@ public class Work {
           }));
     }
     work.setTimestamp(jsonNode.get("created").get("timestamp").asLong());
-    // Authors are represented as a JSON array of author objects, so need to be
-    // treated accordingly:
+    // Authors are represented as a JSON array of author objects, so we'll
+    // iterate through each author and extract the name fields:
     List<String> l = new ArrayList<>();
     if (jsonNode.get("author") == null) {
       log.warn("Author is null for DOI=" + work.getDOI());
